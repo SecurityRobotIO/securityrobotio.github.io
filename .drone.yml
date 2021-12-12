@@ -12,10 +12,12 @@ steps:
     image: registry.securityrobot.network/docker-images/elm:0.0.1
     commands:
       - make build
+      - mkdir public
 
   - name: publish-production
     image: plugins/gh-pages
     settings:
+      pages_directory: public
       ssh_key:
         from_secret: github_pages_ssh_key
     
