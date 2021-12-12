@@ -1,1 +1,23 @@
 ---
+kind: pipeline
+type: docker
+name: default
+
+workspace:
+  path: /home/elm/drone
+
+steps:
+  - name: build
+    pull: always
+    image: registry.securityrobot.network/docker-images/elm:0.0.1
+    commands:
+      - make build
+
+  - name: publish-production
+    image: plugins/gh-pages
+    settings:
+      upstream_name: git@github.com:securityrobotio/securityrobotio.github.io.git
+      username: securityrobotio
+      ssh_key:
+        from_secret: github_pages_ssh_key
+    
